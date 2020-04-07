@@ -1,0 +1,59 @@
+---
+variable name: GCLperson_info 
+use objects: True
+data:
+  - First name: Megan 
+    Last name: Collins
+    Age: 48
+    Hobbies: Gardening 
+    Does she like pets?: Yes 
+  - First mame: Michael
+    Last name: Collins
+    Age: 28
+    Hobbies: surfing 
+    Does he like pets?: Yes 
+  - First name: Graham
+    Last name: Little 
+    Age: 58
+    Hobbies: Music 
+    Does he like pets?: No 
+  - First name: Tony 
+    Last name: Little 
+    Age: 55
+    Hobbies: Scuba diving 
+    Does he like pets?: No  
+---
+mandatory: True
+question:  Data as a table
+subquestion: |
+ 
+  
+  ${ GCLcolumn_header }
+  ${ GCLdashes }
+  %for GCLitem in GCLtable_rows:
+  ${GCLitem}
+  %endfor
+---
+code: |
+  GCLcolumn_header = "" 
+  
+  for GCLitem in GCLperson_info[0]: 
+   GCLcolumn_header += GCLitem + '|'
+   
+  GCLcolumn_header = GCLcolumn_header[:-1]
+--- 
+code: |
+  GCLdashes = '---'
+  for i in range(len(GCLperson_info[0]) - 1):
+    GCLdashes += '|---'
+--- 
+code: |
+  GCLtable_rows = []
+  
+  for GCLitem in GCLperson_info:
+    MDrow = ""
+    for GCLkey in GCLitem:
+      MDrow += str(GCLitem[GCLkey]) + '|'
+    MDrow = MDrow[:-1]
+    GCLtable_rows.append(MDrow)
+--- 
