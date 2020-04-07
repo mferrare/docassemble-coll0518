@@ -7,7 +7,7 @@ data:
     Age: 48
     Hobbies: Gardening 
     Does she like pets?: Yes 
-  - First mame: Michael
+  - First name: Michael
     Last name: Collins
     Age: 28
     Hobbies: surfing 
@@ -21,39 +21,30 @@ data:
     Last name: Little 
     Age: 55
     Hobbies: Scuba diving 
-    Does he like pets?: No  
+    Does he like pets?: No 
+---
+mandatory: True
+code: |
+  for GCLitem in GCLperson_info:
+    GCLitem['GCLquestion'] = 'Please confirm details for {}'.format(GCLitem['First name'])
 ---
 mandatory: True
 question:  Data as a table
 subquestion: |
- 
-  
-  ${ GCLcolumn_header }
-  ${ GCLdashes }
-  %for GCLitem in GCLtable_rows:
-  ${GCLitem}
-  %endfor
+  ${ GCLdisplay_table }
 ---
-code: |
-  GCLcolumn_header = "" 
-  
-  for GCLitem in GCLperson_info[0]: 
-   GCLcolumn_header += GCLitem + '|'
-   
-  GCLcolumn_header = GCLcolumn_header[:-1]
---- 
-code: |
-  GCLdashes = '---'
-  for i in range(len(GCLperson_info[0]) - 1):
-    GCLdashes += '|---'
---- 
-code: |
-  GCLtable_rows = []
-  
-  for GCLitem in GCLperson_info:
-    MDrow = ""
-    for GCLkey in GCLitem:
-      MDrow += str(GCLitem[GCLkey]) + '|'
-    MDrow = MDrow[:-1]
-    GCLtable_rows.append(MDrow)
---- 
+question: |
+  ${ GCLperson_info[i]['GCLquestion'] }
+fields:
+  - no label: GCLperson_info[i]['GCLanswers']
+---
+table: GCLdisplay_table
+rows: GCLperson_info
+columns:
+  - First Name: |
+      row_item['First name']
+  - Last Name: |
+      row_item['Last name']
+  - The Answer: |
+      row_item['GCLanswers']
+---
