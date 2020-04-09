@@ -1,0 +1,24 @@
+---
+code: |
+  GCLcolumn_header = "" 
+  
+  for GCLitem in GCLperson_info[0]: 
+   GCLcolumn_header += GCLitem + '|'
+   
+  GCLcolumn_header = GCLcolumn_header[:-1]
+--- 
+code: |
+  GCLdashes = '---'
+  for i in range(len(GCLperson_info[0]) - 1):
+    GCLdashes += '|---'
+--- 
+code: |
+  GCLtable_rows = []
+  
+  for GCLitem in GCLperson_info:
+    MDrow = ""
+    for GCLkey in GCLitem:
+      MDrow += str(GCLitem[GCLkey]) + '|'
+    MDrow = MDrow[:-1]
+    GCLtable_rows.append(MDrow)
+--- 

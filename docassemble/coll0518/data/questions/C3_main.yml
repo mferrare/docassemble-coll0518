@@ -1,0 +1,75 @@
+---
+features:
+  css: C4_01_lnf_with_comments.css
+  debug: True
+  hide standard menu: False
+
+---
+variable name: GCLperson_info 
+use objects: True
+data: 
+  - GCLquestion : Megan 
+    GCLchoices: 
+      - First name is Megan 
+      - Last name is Collins
+      - Age is 48
+      - Hobbies are Gardening
+      - Do they like pets? True 
+  - GCLquestion: Michael
+    GCLchoices: 
+      - First name is Michael
+      - Last name is Collins
+      - Age is 28
+      - Hobbies are surfing 
+      - Do they like pets? True
+  - GCLquestion: Graham 
+    GCLchoices: 
+       - First name is Graham
+       - Last name is Little 
+       - Age is 58
+       - Hobbies are music 
+       - Do they like pets? False
+  - GCLquestion: Tony
+    GCLchoices:
+      - First name is Tony 
+      - Last name is Little 
+      - Age is 55
+      - Hobbies are Scuba diving 
+      - Do they like pets? False
+
+---
+mandatory: True
+code: |
+  for GCLitem in GCLperson_info:
+    GCLitem['GCLquestion'] = 'Please confirm details for {}'.format(GCLitem['GCLquestion'])
+---
+mandatory: True
+question:  Data as a table
+subquestion: |
+  ${ GCLdisplay_table } 
+  
+attachment:
+  docx template file: Family_Information_main.docx
+buttons:
+  - Exit: exit
+  - Restart: restart
+
+---
+table: GCLdisplay_table
+rows: GCLperson_info
+columns:
+  - Question: |
+      row_item['GCLquestion']
+  - Selected answers: |
+      row_item['GCLanswers'].true_values()
+  - No. Selected answers: |
+      len(row_item['GCLanswers'].true_values())
+---
+
+question: |
+  ${ GCLperson_info[i]['GCLquestion'] }
+fields:
+  - no label: GCLperson_info[i]['GCLanswers']
+    datatype: checkboxes 
+    code: GCLperson_info[i]['GCLchoices']
+---
